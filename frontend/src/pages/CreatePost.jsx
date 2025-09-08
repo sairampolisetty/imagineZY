@@ -113,16 +113,11 @@ const CreatePost = () => {
                 <img
                 src={form.photo}
                 alt={form.prompt}
-                className="w-full h-full object-contain"
+                className="max-w-md h-auto object-contain"
                 />
               ):(
                 <>
-                <img
-                src={preview}
-                alt="preview"
-                className="w-full h-full object-contain opacity-40"
-                />
-                <p className="text-center">No images found</p>
+                
                 </>
               )}
               {generateImg &&(
