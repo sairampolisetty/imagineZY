@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from "@clerk/clerk-react";
 
 import { preview } from '../assets'
 import {FormField,Loader} from '../components'
 import { getRandomPrompt } from '../utils'
+const { user } = useUser();
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -44,12 +46,13 @@ const CreatePost = () => {
     if(form.prompt && form.photo){
       setLoading(true);
       try{
+        const postData = { ...form, userId: user.id };
         const response = await fetch('https://imaginezy.onrender.com/api/v1/post',{
           method:'POST',
           headers:{
             'Content-Type':'application/json',
           },
-          body:JSON.stringify(form),
+          body:JSON.stringify(postData),
         });
         const data = await response.json();
         if(data.success){
@@ -137,7 +140,7 @@ const CreatePost = () => {
           </button>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-5">
           <p className="mt-2 text-[#666e75] text-[14px]">
             Once you have created the image you want, you can share it with others in the community
           </p>
