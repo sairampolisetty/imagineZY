@@ -16,7 +16,7 @@ const App = () => {
       <header className="w-full flex justify-between items-center bg-white sm:px-8 px-4 py-4 border-b border-b-[#e6ebf4]">
         <Link to="/">
           {/*<img src={logo} className="w-28 object-contain" alt="logo" />*/}
-          <span className="text-3xl font-extrabold tracking-wide text-black-400">Imagine<span className="text-blue-400">ZY</span></span>
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-extrabold tracking-wide text-black-500">Imagine<span className="text-blue-400">ZY</span></span>
         </Link>
         <div className="flex justify-between">
           <Link
