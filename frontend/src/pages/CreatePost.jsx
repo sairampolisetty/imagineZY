@@ -5,9 +5,10 @@ import { useUser } from "@clerk/clerk-react";
 import { preview } from '../assets'
 import {FormField,Loader} from '../components'
 import { getRandomPrompt } from '../utils'
-const { user } = useUser();
+
 
 const CreatePost = () => {
+  const { user } = useUser();
   const navigate = useNavigate();
   const [form,setForm]=useState({
     name:'',
@@ -47,6 +48,7 @@ const CreatePost = () => {
       setLoading(true);
       try{
         const postData = { ...form, userId: user.id };
+        console.log("Submitting postData:", { ...form, userId: user?.id });
         const response = await fetch('https://imaginezy.onrender.com/api/v1/post',{
           method:'POST',
           headers:{
