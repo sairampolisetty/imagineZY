@@ -7,7 +7,7 @@ A full-stack AI-powered image generation web app using OPENAI and the MERN stack
 
 ## 🚀 Live Demo
 
-- **Frontend:** [https://imaginezy.netlify.app/](https://imaginezy.netlify.app/)
+- **Frontend:** [https://imaginezy.netlify.app/](https://imaginzy.netlify.app/)
 - **Backend API:** [https://imaginezy.onrender.com/](https://imaginezy.onrender.com/)
 
 ---
