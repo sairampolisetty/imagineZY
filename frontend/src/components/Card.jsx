@@ -1,29 +1,67 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import { download } from '../assets';
-import { downloadImage } from '../utils';
+const Card = ({ photo, prompt, name }) => {
+  const [showPrompt, setShowPrompt] = useState(false);
 
-const Card = ({ _id, name, prompt, photo }) => (
-  <div className="rounded-xl group relative shadow-card hover:shadow-cardhover card">
-    <img
-      className="w-full h-auto object-cover rounded-xl"
-      src={photo}
-      alt={prompt}
-    />
-    <div className="group-hover:flex flex-col max-h-[94.5%] hidden absolute bottom-0 left-0 right-0 bg-[#10131f] m-2 p-4 rounded-md">
-      <p className="text-white text-sm overflow-y-auto prompt">{prompt}</p>
+  // Whether device is mobile-sized (handles SSR too)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640;
 
-      <div className="mt-5 flex justify-between items-center gap-2">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full object-cover bg-green-700 flex justify-center items-center text-white text-xs font-bold">{name[0]}</div>
-          <p className="text-white text-sm">{name}</p>
-        </div>
-        <button type="button" onClick={() => downloadImage(_id, photo)} className="outline-none bg-transparent border-none">
-          <img src={download} alt="download" className="w-6 h-6 object-contain invert" />
-        </button>
+  // Click/tap: toggle prompt ON MOBILE ONLY
+  const handleCardClick = () => {
+    if (isMobile) setShowPrompt(v => !v);
+  };
+
+  // Hide overlay on any scroll/tap outside on mobile (optional enhancement)
+  // Not included here for brevity, but trivial to add with useEffect.
+
+  return (
+    <div
+      className="relative group rounded-xl shadow-md overflow-hidden bg-white cursor-pointer"
+      onClick={handleCardClick}
+      tabIndex={0}
+    >
+      <img
+        src={photo}
+        alt={prompt}
+        className="w-full object-cover aspect-square rounded-xl transition-transform duration-200 group-hover:scale-105"
+        draggable={false}
+      />
+
+      {/* Overlay for prompt */}
+      <div
+        className={`
+          absolute inset-0 flex items-end sm:items-center justify-center
+          bg-gradient-to-t from-black/80 via-black/60 to-transparent
+          px-3 pb-3 sm:pb-0 sm:bg-black/75
+          rounded-xl
+          transition-all
+          duration-300
+          ${isMobile
+            ? (showPrompt ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-6 pointer-events-none")
+            : "opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 sm:pointer-events-auto translate-y-6"
+          }
+        `}
+        style={{
+          zIndex: 2,
+          // On large screens: show prompt centered, on mobile push it up from bottom
+        }}
+      >
+        <span
+          className="block w-full text-center text-base font-medium text-white drop-shadow-md select-none"
+          style={{
+            // Optional: maxHeight: '70%', overflowY: 'auto'
+          }}
+        >
+          {prompt}
+        </span>
+      </div>
+
+      {/* Attribution: User name at bottom left */}
+      <div className="absolute bottom-3 left-3 px-2 py-1 bg-black/60 rounded text-xs font-semibold text-white pointer-events-none z-10 shadow-lg">
+        {name}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Card;
